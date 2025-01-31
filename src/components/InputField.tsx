@@ -1,4 +1,5 @@
-import type { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { UseFormRegister } from 'react-hook-form';
 import ErrorText from './ErrorText';
 
 

@@ -8,16 +8,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    console.log('User logged in:', JSON.stringify(storedUser));
-
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
   const login = (userData: User) => {
-     
-    console.log('User logged in:', JSON.stringify(userData));
     setUser(userData);
-    console.log('User logged in:', JSON.stringify(userData));
     localStorage.setItem('user', JSON.stringify(userData));
   };
 
