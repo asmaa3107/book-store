@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { login } from '../services/authServices';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../components/InputField';
+import { toast } from 'react-toastify';
 
 interface LoginForm {
   email: string;
@@ -17,12 +18,11 @@ const Login = () => {
   const onSubmit = async (data: LoginForm) => {
     try {
       const userData = await login(data.email, data.password);
-      console.log('Login successful', userData);
-       
+      toast.success(`Login successful`);
       setAuth(userData);
       navigate('/dashboard');
     } catch (error) {
-      console.log('Login failed',error);
+      toast.error(`Login failed`);
     }
   };
 
