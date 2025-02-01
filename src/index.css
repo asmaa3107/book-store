@@ -17,7 +17,6 @@
 a {
   font-weight: 600;
   font-size: larger;
-  color: #0b294e !important;
   text-decoration: inherit;
 }
 a:hover {
@@ -76,4 +75,8 @@ button:focus-visible {
 
    
   }
+}
+
+li.p-submenu-header{
+  display: none;
 }

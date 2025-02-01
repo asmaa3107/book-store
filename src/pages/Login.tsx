@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
@@ -28,7 +27,6 @@ const Login = () => {
     try {
       const userData = await login(data.email, data.password);
       toast.success(`Login successful`);
-      debugger;
       setAuth(userData);
       navigate("/dashboard");
       setLoading(false);
@@ -45,7 +43,7 @@ const Login = () => {
           <div className="flex flex-col overflow-y-auto md:flex-row">
             <div className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
               <div className="w-full">
-                <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
+                <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-white">
                   Login
                 </h1>
 
@@ -85,10 +83,10 @@ const Login = () => {
                     className="mt-2 w-full"
                   />
                 </form>
-                <hr className="my-8" />
+                <hr className="my-8 dark:border-amber-50" />
                 <p className="mt-4">
                   <a
-                    className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                    className="text-sm font-medium text-purple-600 dark:text-white hover:underline"
                     href=""
                   >
                     Forgot your password?
@@ -96,7 +94,7 @@ const Login = () => {
                 </p>
                 <p className="mt-1">
                   <a
-                    className="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                    className="text-sm font-medium text-purple-600 dark:text-white hover:underline"
                     href=""
                   >
                     Create account
@@ -108,7 +106,7 @@ const Login = () => {
             <div className="h-32 md:h-auto md:w-1/2">
               <img
                 aria-hidden="true"
-                className="object-cover w-full h-full dark:hidden"
+                className="object-cover w-full h-full"
                 src="/login-office.jpeg"
                 alt="Office"
               />

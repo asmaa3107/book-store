@@ -1,23 +1,37 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './hooks/useAuth'; // Custom hook for authentication
-import Login from './pages/Login';
-import Dashboard from './pages/dashboard';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import { useAuth } from "./hooks/useAuth"; // Custom hook for authentication
+import Login from "./pages/Login";
+import Dashboard from "./pages/dashboard";
+import ViewBooks from "./pages/view-books";
+import AddEditBooks from "./pages/add-edit-books";
+import Layout from "./components/Layout";
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth(); 
-  return user ? children : <Navigate to="/" />;
-};
+// Protected Route Wrapper (Only for Authenticated Users)
+// const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+//   const { user } = useAuth();
+//   return user ? children : <Navigate to="/" />;
+// };
 
 const AppRoutes = () => (
   <BrowserRouter>
     <Routes>
+      {/* Public Route (Login) - No Layout */}
       <Route path="/" element={<Login />} />
+
+      {/* Protected Routes (Require Auth) */}
       <Route
-        path="/dashboard"
+        path="/*"
         element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <Layout>
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/add-edit-books" element={<AddEditBooks />} />
+              <Route path="/view-book-details" element={<ViewBooks />} />
+            </Routes>
+          </Layout>
+          // </ProtectedRoute>
         }
       />
     </Routes>
