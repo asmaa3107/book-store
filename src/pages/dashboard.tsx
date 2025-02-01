@@ -9,6 +9,9 @@ const Dashboard = () => {
 
   return (
     <div>
+       <h1 className="text-3xl font-bold underline">
+    Hello world!
+  </h1>
       <h1>Welcome, {user.email}</h1>
       <button onClick={logout}>Logout</button>
     </div>

@@ -1,3 +1,8 @@
+@import "tailwindcss";
+@import 'primereact/resources/themes/lara-light-blue/theme.css';
+@import 'primereact/resources/primereact.min.css';
+@import 'primeicons/primeicons.css';
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -18,18 +23,13 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
 
+/* 
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -47,13 +47,9 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
+/* Your existing styles */
 
-// task styling
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-}
 
 .login-container {
   max-width: 400px;
@@ -76,12 +72,6 @@ body {
       border: 1px solid #ccc;
     }
 
-    button {
-      background: #007bff;
-      color: white;
-      padding: 10px;
-      border: none;
-      cursor: pointer;
-    }
+   
   }
 }

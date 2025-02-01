@@ -5,7 +5,7 @@ import Dashboard from './pages/dashboard';
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth(); 
-  return user ? children : <Navigate to="/login" />;
+  return user ? children : <Navigate to="/" />;
 };
 
 const AppRoutes = () => (
