@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { Column } from "primereact/column";
 import { useAuth } from "../hooks/useAuth";
 import { getBooks } from "../services/booksServices";
 import { Button } from "primereact/button";
+import { BookType } from "../types/Book";
 const Dashboard = () => {
   const { user } = useAuth();
 
@@ -22,7 +24,7 @@ const Dashboard = () => {
   };
   const [createBook, setCreateBook] = useState<boolean>(false);
   //bind table and pagination functions
-  const [booksList, setBooksList] = useState([]);
+  const [booksList, setBooksList] = useState<BookType[]>([]);
   const [first1, setFirst1] = useState(0);
   const [rows1, setRows1] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +44,12 @@ const Dashboard = () => {
       try {
         setLoading(true);
         const data = await getBooks();
-        setBooksList(data);
+        if (Array.isArray(data)) {
+          setBooksList(data);
+        } else {
+          console.error("API did not return an array:", data);
+          setBooksList([]);
+        }
       } catch (error) {
         console.error("Error loading books", error);
         setLoading(false);
@@ -53,13 +60,6 @@ const Dashboard = () => {
 
     fetchBooks();
   }, []);
-
-  const paginatorLeft = (
-    <Button type="button" icon="pi pi-refresh" className="p-button-text" />
-  );
-  const paginatorRight = (
-    <Button type="button" icon="pi pi-cloud" className="p-button-text" />
-  );
 
   return (
     <>
@@ -121,14 +121,37 @@ const Dashboard = () => {
             <div className="px-4 md:px-8  xl:px-10">
               <div className=" overflow-x-auto">
                 <div className="card">
-                  {JSON.stringify(booksList)}
-                  {/* <ul>
-                    {booksList.map((book) => (
-                      <li key={book.id}>
-                        {book.title} - {book.author}
-                      </li>
-                    ))}
-                  </ul> */}
+                  <DataTable
+                    value={booksList || []}
+                    paginator
+                    loading={loading}
+                    scrollable={false}
+                    paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+                    rows={10}
+                    rowsPerPageOptions={[10, 20, 50]}
+                  >
+                    <Column
+                      field="Title"
+                      header="Title"
+                      style={{ width: "25%" }}
+                    ></Column>
+                    <Column
+                      field="Publisher"
+                      header="Publisher"
+                      style={{ width: "25%" }}
+                    ></Column>
+                    <Column
+                      field="Year"
+                      header="Year"
+                      style={{ width: "25%" }}
+                    ></Column>
+                    <Column
+                      field="Pages"
+                      header="Pages"
+                      style={{ width: "25%" }}
+                    ></Column>
+                  </DataTable>
                 </div>
               </div>
             </div>

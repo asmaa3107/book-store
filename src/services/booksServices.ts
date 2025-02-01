@@ -9,7 +9,7 @@ export const getBooks = async () => {
     // eslint-disable-next-line no-debugger
     debugger;
     const response = await axios.get(`${API_URL}books`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error fetching books:", error);
     throw error;
