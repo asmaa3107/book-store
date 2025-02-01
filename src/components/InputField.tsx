@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { UseFormRegister } from 'react-hook-form';
 import ErrorText from './ErrorText';
+import { InputText } from 'primereact/inputtext';
 
 
 export type InputFieldProps = {
@@ -22,11 +23,10 @@ export default function InputField({
 
      <label className="" htmlFor={labelText}>{labelText}</label>
    
-      <input
+      <InputText
         type={type}
         id={labelText}
         placeholder={placeholder}
-        required={true}
        {...register}
       />
     
