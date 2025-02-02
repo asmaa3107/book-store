@@ -22,6 +22,8 @@ const Login = () => {
   const { login: setAuth } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [show, toggleEye] = useState(false);
+
   const onSubmit = async (data: LoginForm) => {
     setLoading(true);
     try {
@@ -61,20 +63,31 @@ const Login = () => {
                     })}
                     errorMessage={errors.email?.message}
                   />
-
-                  <InputField
-                    labelText="Password"
-                    type="password"
-                    placeholder="Enter your password"
-                    register={register("password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters",
-                      },
-                    })}
-                    errorMessage={errors.password?.message}
-                  />
+                  <div>
+                    <InputField
+                      labelText="Password"
+                      type={show ? "text" : "password"}
+                      placeholder="Enter your password"
+                      register={register("password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 6,
+                          message: "Password must be at least 6 characters",
+                        },
+                      })}
+                      errorMessage={errors.password?.message}
+                    />
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => toggleEye(!show)}
+                    >
+                      {show ? (
+                        <span className="pi pi-eye"></span>
+                      ) : (
+                        <span className="pi pi-eye-slash"></span>
+                      )}
+                    </span>
+                  </div>
 
                   <Button
                     loading={loading}
