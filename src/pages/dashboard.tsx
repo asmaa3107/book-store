@@ -4,52 +4,37 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-
+import { useNavigate } from "react-router-dom"; // for navigation
 import { useAuth } from "../hooks/useAuth";
-import { getBooks } from "../services/booksServices";
+import { deleteBook, getBooks } from "../services/booksServices";
 import { Button } from "primereact/button";
 import { BookType } from "../types/Book";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { toast } from "react-toastify";
 const Dashboard = () => {
   const { user } = useAuth();
-
+  const navigate = useNavigate();
   if (!user) {
     return <p>Loading...</p>;
   }
   const handleSearch = (book: string) => {
     console.log(book);
-    // const filteredClassrooms = fetchedClassrooms.filter((classroom) =>
-    //   classroom.name.toLowerCase().includes(term.toLowerCase())
-    // );
-    // setClassrooms(filteredClassrooms);
+    const filteredClassrooms = booksList.filter((searchInput) =>
+      book.toLowerCase().includes(book.toLowerCase())
+    );
+    setBooksList(filteredClassrooms);
   };
-  const [createBook, setCreateBook] = useState<boolean>(false);
-  //bind table and pagination functions
+
   const [booksList, setBooksList] = useState<BookType[]>([]);
-  const [first1, setFirst1] = useState(0);
-  const [rows1, setRows1] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageInputTooltip, setPageInputTooltip] = useState(
-    "Press 'Enter' key to go to this page."
-  );
+
   const [loading, setLoading] = useState<boolean>(true);
 
-  //getBooks(0, 10);
-  const onPageInputChange = (event) => {
-    setCurrentPage(event.target.value);
-  };
-
-  // Fetch all books on component mount
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         setLoading(true);
         const data = await getBooks();
-        if (Array.isArray(data)) {
-          setBooksList(data);
-        } else {
-          console.error("API did not return an array:", data);
-          setBooksList([]);
-        }
+        setBooksList(Array.isArray(data) ? data : data.books || []);
       } catch (error) {
         console.error("Error loading books", error);
         setLoading(false);
@@ -60,7 +45,47 @@ const Dashboard = () => {
 
     fetchBooks();
   }, []);
+  //delete Confirmation modle
+  const confirmDelete = (bookId: string) => {
+    confirmDialog({
+      message: "Are you sure you want to delete this book?",
+      header: "Delete Confirmation",
+      icon: "pi pi-exclamation-triangle",
+      acceptClassName: "p-button-danger",
+      accept: () => {
+        setBooksList(booksList.filter((book: BookType) => book.id !== bookId));
+        toast.success(`delete successful`);
+      },
+      reject: () => console.log("Delete canceled"),
+    });
+  };
 
+  const actionTemplate = (rowData: BookType) => {
+    return (
+      <div className="flex gap-2">
+        {/* View (Details) Button */}
+        <Button
+          icon="pi pi-eye"
+          className="p-button-rounded p-button-info p-button-sm"
+          onClick={() => navigate(`/view/${rowData.id}`)}
+        />
+
+        {/* Edit Button */}
+        <Button
+          icon="pi pi-pencil"
+          className="p-button-rounded p-button-warning p-button-sm"
+          onClick={() => navigate(`/books/edit/${rowData.id}`)}
+        />
+
+        {/* Delete Button */}
+        <Button
+          icon="pi pi-trash"
+          className="p-button-rounded p-button-danger p-button-sm"
+          onClick={() => confirmDelete(rowData.id)}
+        />
+      </div>
+    );
+  };
   return (
     <>
       <div className="container px-6 mx-auto grid">
@@ -76,9 +101,11 @@ const Dashboard = () => {
                   <div className="flex flex-wrap gap-4">
                     <button
                       className="
-                      bg-indigo-400  py-7 px-4 text-white h-16 w-full md:w-[229px]  items-center rounded-xl border border-gray-200 
-                      !hidden lg:!flex"
-                      onClick={() => setCreateBook(true)}
+                      cursor-pointer
+                      bg-indigo-400  py-7 px-4 text-white 
+                      h-16 w-full md:w-[229px]  items-center rounded-xl border border-gray-200 
+                       lg:!flex"
+                      onClick={() => navigate("/add-edit-books")}
                     >
                       <div className="w-full font-arabicFont text-xl font-medium leading-none text-white ltr:text-left rtl:text-right">
                         Add New Book
@@ -151,6 +178,11 @@ const Dashboard = () => {
                       header="Pages"
                       style={{ width: "25%" }}
                     ></Column>
+                    <Column
+                      body={actionTemplate}
+                      header="Actions"
+                      style={{ width: "15%" }}
+                    />
                   </DataTable>
                 </div>
               </div>
@@ -158,6 +190,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <ConfirmDialog />
     </>
   );
 };

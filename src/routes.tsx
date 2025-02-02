@@ -18,6 +18,7 @@ const AppRoutes = () => (
     <Routes>
       {/* Public Route (Login) - No Layout */}
       <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
 
       {/* Protected Routes (Require Auth) */}
       <Route
@@ -27,8 +28,8 @@ const AppRoutes = () => (
           <Layout>
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/add-edit-books" element={<AddEditBooks />} />
-              <Route path="/view-book-details" element={<ViewBooks />} />
+              <Route path="/add-edit-books/:id" element={<AddEditBooks />} />
+              <Route path="/view/:id" element={<ViewBooks />} />
             </Routes>
           </Layout>
           // </ProtectedRoute>

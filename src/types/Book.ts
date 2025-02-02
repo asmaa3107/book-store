@@ -1,14 +1,16 @@
 export interface BookType {
-    title: string;
-    author: string;
-    category: string;
-    price: number;
-    pdf: File;
-    coverPhoto: File;
-    version: string;
-    olderVersion?: string;
-    edition?: string;
-    isbn: string;
-    releaseDate?: Date;
-    brief: string;    
+    id: string;
+    Image: string;
+    Title: string;
+    Author: string;
+    Category: string;
+    Price: number;
+    Pdf: File;
+    CoverPhoto: string;
+    Version: string;
+    OlderVersion?: string;
+    Edition?: string;
+    ISBN: string;
+    ReleaseDate?: Date;
+    Notes: string;    
 }

@@ -1,13 +1,17 @@
+/* eslint-disable no-debugger */
 import axios from "axios";
 import { BookType } from "../types/Book";
 
 const API_URL = "https://stephen-king-api.onrender.com/api/";
 
 // Fetch all books
+/**
+ * Fetch all books
+ * @returns {Promise<BookType[]>} - The list of books
+ */
 export const getBooks = async () => {
   try {
     // eslint-disable-next-line no-debugger
-    debugger;
     const response = await axios.get(`${API_URL}books`);
     return response.data.data;
   } catch (error) {
@@ -17,12 +21,17 @@ export const getBooks = async () => {
 };
 
 // Fetch a single book by ID
+/**
+ * Fetch a single book by ID
+ * @param {string} id - The ID of the book to be fetched
+ * @returns {Promise<BookType>} - The book data
+ */
 export const getBookById = async (id: string) => {
   try {
-        // eslint-disable-next-line no-debugger
+        // https://stephen-king-api.onrender.com/api/book/1
         debugger;
-    const response = await axios.get(`${API_URL}/${id}`);
-    return response.data;
+    const response = await axios.get(`${API_URL}/book/${id}`);
+    return response.data.data;
   } catch (error) {
     console.error("Error fetching book:", error);
     throw error;
@@ -33,7 +42,7 @@ export const getBookById = async (id: string) => {
 export const addBook = async (bookData: Partial<BookType>) => {
   try {
         // eslint-disable-next-line no-debugger
-        debugger;
+  
     const response = await axios.post(API_URL, bookData);
     return response.data;
   } catch (error) {
@@ -46,7 +55,7 @@ export const addBook = async (bookData: Partial<BookType>) => {
 export const updateBook = async (id: string, bookData: Partial<BookType>) => {
   try {
         // eslint-disable-next-line no-debugger
-        debugger;
+  
     const response = await axios.put(`${API_URL}/${id}`, bookData);
     return response.data;
   } catch (error) {
@@ -59,7 +68,7 @@ export const updateBook = async (id: string, bookData: Partial<BookType>) => {
 export const deleteBook = async (id: string) => {
   try {
         // eslint-disable-next-line no-debugger
-        debugger;
+  
     const response = await axios.delete(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
