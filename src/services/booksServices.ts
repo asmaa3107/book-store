@@ -11,7 +11,6 @@ const API_URL = "https://stephen-king-api.onrender.com/api/";
  */
 export const getBooks = async () => {
   try {
-    // eslint-disable-next-line no-debugger
     const response = await axios.get(`${API_URL}books`);
     return response.data.data;
   } catch (error) {
@@ -29,7 +28,7 @@ export const getBooks = async () => {
 export const getBookById = async (id: string) => {
   try {
         // https://stephen-king-api.onrender.com/api/book/1
-        debugger;
+      
     const response = await axios.get(`${API_URL}/book/${id}`);
     return response.data.data;
   } catch (error) {

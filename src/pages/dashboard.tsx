@@ -41,7 +41,11 @@ const Dashboard = () => {
       try {
         setLoading(true);
         const data = await getBooks();
-        setBooksList(Array.isArray(data) ? data : data.books || []);
+        const newBook = localStorage.getItem("book");
+        if (newBook) {
+          const newBookObj: BookType = JSON.parse(newBook);
+          setBooksList([newBookObj, ...(Array.isArray(data) ? data : [])]);
+        }
       } catch (error) {
         console.error("Error loading books", error);
         setLoading(false);
@@ -81,7 +85,7 @@ const Dashboard = () => {
         <Button
           icon="pi pi-pencil"
           className="p-button-rounded p-button-warning p-button-sm"
-          onClick={() => navigate(`/books/edit/${rowData.id}`)}
+          onClick={() => navigate(`/edit-book/${rowData.id}`)}
         />
 
         {/* Delete Button */}
@@ -112,7 +116,7 @@ const Dashboard = () => {
                       bg-indigo-400  py-7 px-4 text-white 
                       h-16 w-full md:w-[229px]  items-center rounded-xl border border-gray-200 
                        lg:!flex"
-                      onClick={() => navigate("/add-edit-books")}
+                      onClick={() => navigate("/add-book")}
                     >
                       <div className="w-full font-arabicFont text-xl font-medium leading-none text-white ltr:text-left rtl:text-right">
                         Add New Book
@@ -170,25 +174,14 @@ const Dashboard = () => {
                       header="Title"
                       style={{ width: "25%" }}
                     ></Column>
-                    <Column
-                      field="Publisher"
-                      header="Publisher"
-                      style={{ width: "25%" }}
-                    ></Column>
-                    <Column
-                      field="Year"
-                      header="Year"
-                      style={{ width: "25%" }}
-                    ></Column>
-                    <Column
-                      field="Pages"
-                      header="Pages"
-                      style={{ width: "25%" }}
-                    ></Column>
+                    <Column field="Publisher" header="Publisher"></Column>
+                    <Column field="Year" header="Year"></Column>
+                    {/* <Column field="Pages" header="Pages"></Column> */}
+                    <Column field="ISBN" header="ISBN"></Column>
                     <Column
                       body={actionTemplate}
                       header="Actions"
-                      style={{ width: "15%" }}
+                      style={{ width: "20%" }}
                     />
                   </DataTable>
                 </div>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAuth } from "../hooks/useAuth";
 
-const AddEditBooks = () => {
+const EditBooks = () => {
   const { user } = useAuth();
 
   if (!user) {
@@ -16,4 +16,4 @@ const AddEditBooks = () => {
   );
 };
 
-export default AddEditBooks;
+export default EditBooks;

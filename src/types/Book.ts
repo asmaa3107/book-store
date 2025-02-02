@@ -3,6 +3,7 @@ export interface BookType {
     Image: string;
     Title: string;
     Author: string;
+    Publisher: string;
     Category: string;
     Price: number;
     Pdf: File;
@@ -12,5 +13,7 @@ export interface BookType {
     Edition?: string;
     ISBN: string;
     ReleaseDate?: Date;
+    Date?: string;
     Notes: string;    
+    brief: string;    
 }
