@@ -14,20 +14,27 @@ import { toast } from "react-toastify";
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [booksList, setBooksList] = useState<BookType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
   if (!user) {
     return <p>Loading...</p>;
   }
-  const handleSearch = (book: string) => {
-    console.log(book);
-    const filteredClassrooms = booksList.filter((searchInput) =>
-      book.toLowerCase().includes(book.toLowerCase())
-    );
-    setBooksList(filteredClassrooms);
+  const handleSearch = (searchTerm: string) => {
+    console.log(searchTerm);
+    let filteredBooks: BookType[] = [];
+    if (searchTerm !== "") {
+      filteredBooks = booksList.filter((book) =>
+        book.Title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      filteredBooks = [...booksList];
+    }
+    if (filteredBooks.length === 0) {
+      toast.info("No books found with the search term");
+    }
+    setBooksList(filteredBooks);
   };
-
-  const [booksList, setBooksList] = useState<BookType[]>([]);
-
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -119,11 +126,11 @@ const Dashboard = () => {
 
                 <div className=" flex w-full items-center md:mt-0 xl:w-4/12">
                   <div className="relative w-full">
-                    {/* onChange={handleSearch} */}
                     <input
+                      onChange={(e) => handleSearch(e.target.value)}
                       type="text"
                       className="h-16 w-full rounded-xl border border-gray-200 px-4 py-2 text-start font-['Hacen-Algeria'] text-xl font-normal"
-                      placeholder="Search for books"
+                      placeholder="Search by book title..."
                     />
                     <div className="pointer-events-none absolute inset-y-0 flex items-center p-3 ltr:right-0 rtl:left-0">
                       <svg
